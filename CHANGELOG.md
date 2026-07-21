@@ -1,3 +1,7 @@
+## 0.2.1
+
+- Widened `device_info_plus` constraint to allow v13.x (`>=9.0.0 <14.0.0`).
+
 ## 0.2.0
 
 - Added `recordFirstOpen` parameter to `init()` — automatically sends a `first_open` event when the app is opened for the first time on a device.
