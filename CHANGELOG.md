@@ -1,3 +1,7 @@
+## 0.3.1
+
+- Fixed repository and homepage URLs in `pubspec.yaml` (moved to `carpe-diem-creations`).
+
 ## 0.3.0
 
 - Added automatic app version capture — the version is read via `package_info_plus` at init and sent as the Umami `tag` field on every event, so all metrics can be filtered by app version in the dashboard (requires Umami v2.9+).
