@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:umami_flutter/src/device_id_service.dart';
 import 'package:umami_flutter/src/device_info.dart';
 import 'package:umami_flutter/src/umami_client.dart';
+import 'package:umami_flutter/src/user_agent.dart';
 
 /// Lightweight Umami analytics for Flutter.
 ///
@@ -55,11 +56,15 @@ class UmamiAnalytics {
   /// - [onError]: Optional callback invoked when init or event sending fails.
   ///   Useful for monitoring analytics health in production.
   /// - [userAgent]: Optional custom User-Agent string. If omitted, a
-  ///   platform-appropriate browser User-Agent is used so Umami can
-  ///   recognise the OS.
+  ///   browser-style User-Agent embedding the device's real OS version is
+  ///   generated so Umami's Environment panel reports accurate OS data.
   /// - [recordFirstOpen]: If `true`, automatically sends a `first_open` event
   ///   when the app is opened for the first time on this device.
   ///   Defaults to `false`.
+  /// - [appVersion]: Optional override for the app version sent as the Umami
+  ///   `tag` field on every event. If omitted, the version is read
+  ///   automatically from the platform package info (e.g. `1.4.2`). Pass a
+  ///   custom value to include build metadata or a flavor (e.g. `1.4.2-beta`).
   static void init({
     required String websiteId,
     required String serverUrl,
@@ -68,6 +73,7 @@ class UmamiAnalytics {
     void Function(Object error)? onError,
     String? userAgent,
     bool recordFirstOpen = false,
+    String? appVersion,
   }) {
     // Guard: already initialised successfully — skip.
     if (_ready != null && _ready!.isCompleted) {
@@ -95,6 +101,7 @@ class UmamiAnalytics {
       hostname: hostname,
       userAgent: userAgent,
       recordFirstOpen: recordFirstOpen,
+      appVersion: appVersion,
     );
   }
 
@@ -104,11 +111,14 @@ class UmamiAnalytics {
     required String hostname,
     String? userAgent,
     bool recordFirstOpen = false,
+    String? appVersion,
   }) async {
     try {
       final start = DateTime.now();
 
-      final deviceInfo = await DeviceInfoService.gather();
+      final deviceInfo = await DeviceInfoService.gather(
+        appVersionOverride: appVersion,
+      );
 
       final client = UmamiClient(
         serverUrl: serverUrl,
@@ -117,7 +127,7 @@ class UmamiAnalytics {
         deviceInfo: deviceInfo,
         log: _log,
         onError: _onError,
-        userAgent: userAgent,
+        userAgent: userAgent ?? await UserAgentBuilder.build(),
       );
 
       _ready!.complete(client);

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:http/io_client.dart';
 
 import 'package:umami_flutter/src/device_info.dart';
+import 'package:umami_flutter/src/user_agent.dart';
 
 /// Low-level HTTP client that sends events to the Umami `/api/send` endpoint.
 ///
@@ -29,7 +30,9 @@ class UmamiClient {
   /// - [log]: Optional debug logger.
   /// - [onError]: Optional error callback for monitoring.
   /// - [userAgent]: Custom User-Agent string. If `null`, a platform-appropriate
-  ///   browser UA is used so Umami can recognise the OS.
+  ///   browser UA with a generic OS version is used ([UserAgentBuilder.fallback]).
+  ///   Callers that want the device's real OS version reported should pass a
+  ///   UA built with [UserAgentBuilder.build].
   UmamiClient({
     required String serverUrl,
     required String websiteId,
@@ -44,7 +47,7 @@ class UmamiClient {
        _deviceInfo = deviceInfo,
        _log = log,
        _onError = onError,
-       _userAgent = userAgent ?? _defaultUserAgent(),
+       _userAgent = userAgent ?? UserAgentBuilder.fallback(),
        _client = IOClient(HttpClient()..userAgent = null);
 
   /// Track a screen (page) view.
@@ -77,6 +80,8 @@ class UmamiClient {
       'id': _deviceInfo.deviceId,
     };
 
+    final appVersion = _deviceInfo.appVersion;
+    if (appVersion != null) payload['tag'] = appVersion;
     if (eventName != null) payload['name'] = eventName;
     if (data != null) payload['data'] = data;
 
@@ -100,26 +105,5 @@ class UmamiClient {
           _log?.call('[UmamiFlutter] Failed: $e');
           _onError?.call(e);
         });
-  }
-
-  /// Platform-aware User-Agent so Umami recognises the OS.
-  ///
-  /// Uses realistic browser UA strings because Umami parses the User-Agent
-  /// header to populate OS / browser / device-type fields.
-  static String _defaultUserAgent() {
-    if (Platform.isAndroid) {
-      return 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 '
-          '(KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36';
-    } else if (Platform.isIOS) {
-      return 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) '
-          'AppleWebKit/605.1.15 (KHTML, like Gecko) '
-          'Version/17.0 Mobile/15E148 Safari/604.1';
-    } else if (Platform.isMacOS) {
-      return 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
-          'AppleWebKit/537.36 (KHTML, like Gecko) '
-          'Chrome/122.0.0.0 Safari/537.36';
-    }
-    return 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
-        '(KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
   }
 }

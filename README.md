@@ -30,14 +30,14 @@ Track screen views, custom events, and user engagement in your Flutter app **wit
 ## Features
 
 - 🚀 **Non-blocking init** — `init()` returns immediately; events tracked before initialization completes are automatically queued and flushed.
-- 📱 **Automatic device info** — Collects device ID, locale, and screen resolution out of the box.
+- 📱 **Automatic device info** — Collects device ID, locale, screen resolution, and app version out of the box.
 - 🔒 **Persistent device IDs** — Uses platform-specific identifiers (Android ID, `identifierForVendor`, etc.) persisted in secure storage (Keychain / EncryptedSharedPreferences) to survive app reinstalls.
 - 🔥 **Fire-and-forget tracking** — `trackScreen` and `trackEvent` never block the UI thread.
 - 🖥️ **Multi-platform** — Supports Android, iOS, macOS, and Windows.
 - 🛡️ **Privacy-first** — No cookies, no PII, no third-party data sharing. GDPR/CCPA friendly.
 - 🪵 **Optional debug logging** — Enable verbose logs during development with a single flag.
 - ⚠️ **Error monitoring** — Optional `onError` callback for production health checks.
-- 🌐 **Configurable User-Agent** — Override the default browser UA string if needed.
+- 🌐 **Accurate OS reporting** — The default User-Agent embeds the device's real OS version so Umami's Environment panel shows true OS data; fully overridable if needed.
 
 ## Getting Started
 
@@ -140,8 +140,9 @@ UmamiAnalytics.trackEvent('purchase', data: {'plan': 'pro', 'price': 9.99});
 | `hostname`        | ✅       | Logical hostname for this app.                                    |
 | `enableLogging`   | ❌       | Print debug logs to console. Default: `false`.                    |
 | `onError`         | ❌       | Callback invoked on init or send failures.                        |
-| `userAgent`       | ❌       | Custom User-Agent string override.                                |
+| `userAgent`       | ❌       | Custom User-Agent override. Default: browser-style UA with the device's real OS version. |
 | `recordFirstOpen` | ❌       | Auto-send a `first_open` event on first launch. Default: `false`. |
+| `appVersion`      | ❌       | Override the app version sent as the Umami `tag` field. Auto-detected via `package_info_plus` if omitted. |
 
 > **Supported platforms:** Android, iOS, macOS, Windows. Flutter Web is **not** supported (the package uses `dart:io`).
 >
@@ -154,7 +155,8 @@ umami_flutter.dart          ← Public barrel export
 └─ src/
    ├─ umami_analytics.dart  ← Static API (init, trackScreen, trackEvent)
    ├─ umami_client.dart     ← HTTP client for Umami /api/send endpoint
-   ├─ device_info.dart      ← Collects device ID, locale, screen resolution
+   ├─ device_info.dart      ← Collects device ID, locale, screen, app version
+   ├─ user_agent.dart       ← Browser-style UA with real OS version
    └─ device_id_service.dart← Persistent device ID (Keychain / SecureStorage)
 ```
 
@@ -163,9 +165,10 @@ umami_flutter.dart          ← Public barrel export
 | Package                                                                     | Purpose                                  |
 | --------------------------------------------------------------------------- | ---------------------------------------- |
 | [`http`](https://pub.dev/packages/http)                                     | HTTP requests to the Umami server        |
-| [`device_info_plus`](https://pub.dev/packages/device_info_plus)             | Platform-specific device identifiers     |
+| [`device_info_plus`](https://pub.dev/packages/device_info_plus)             | Device identifiers and OS version for UA |
 | [`android_id`](https://pub.dev/packages/android_id)                         | Android device ID                        |
 | [`flutter_secure_storage`](https://pub.dev/packages/flutter_secure_storage) | Persistent secure storage for device IDs |
+| [`package_info_plus`](https://pub.dev/packages/package_info_plus)           | App version for the Umami `tag` field    |
 | [`uuid`](https://pub.dev/packages/uuid)                                     | UUID v4 fallback for device IDs          |
 
 ## Related

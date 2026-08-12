@@ -1,3 +1,12 @@
+## 0.3.0
+
+- Added automatic app version capture — the version is read via `package_info_plus` at init and sent as the Umami `tag` field on every event, so all metrics can be filtered by app version in the dashboard (requires Umami v2.9+).
+- Added optional `appVersion` parameter to `init()` to override the auto-detected version (e.g. to include build metadata or a flavor like `1.4.2-beta`).
+- Added `appVersion` field to `DeviceInfo`.
+- The default User-Agent now embeds the device's **real OS version** (and model on Android), so Umami's Environment panel reports accurate OS data instead of hardcoded versions. Windows keeps the frozen `NT 10.0` string, matching real browsers.
+- Exported `UserAgentBuilder` for consumers who want to build or inspect the generated User-Agent.
+- Widened `flutter_secure_storage` constraint to allow v11.x (`>=8.0.0 <12.0.0`).
+
 ## 0.2.1
 
 - Widened `device_info_plus` constraint to allow v13.x (`>=9.0.0 <14.0.0`).

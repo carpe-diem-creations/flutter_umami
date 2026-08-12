@@ -21,3 +21,4 @@ library;
 
 export 'src/umami_analytics.dart';
 export 'src/device_id_service.dart' show DeviceIdService;
+export 'src/user_agent.dart' show UserAgentBuilder;

@@ -14,12 +14,24 @@ void main() {
         deviceId: 'test-id',
         locale: 'en_US',
         screenResolution: '1080x1920',
+        appVersion: '1.2.3',
       );
 
       final result = info.toString();
       expect(result, contains('test-id'));
       expect(result, contains('en_US'));
       expect(result, contains('1080x1920'));
+      expect(result, contains('1.2.3'));
+    });
+
+    test('appVersion defaults to null', () {
+      const info = DeviceInfo(
+        deviceId: 'test-id',
+        locale: 'en_US',
+        screenResolution: '1080x1920',
+      );
+
+      expect(info.appVersion, isNull);
     });
 
     test('equality via field values', () {
@@ -113,6 +125,22 @@ void main() {
 
       // Should not throw even with invalid server
       expect(() => client.trackScreen('Test'), returnsNormally);
+    });
+  });
+
+  // ── UserAgentBuilder Tests ─────────────────────────────────────────────
+
+  group('UserAgentBuilder', () {
+    test('fallback returns a browser-style UA', () {
+      final ua = UserAgentBuilder.fallback();
+      expect(ua, startsWith('Mozilla/5.0'));
+    });
+
+    test('build never throws and returns a browser-style UA', () async {
+      // In tests the device_info_plus platform channel is unavailable,
+      // so build() must fall back rather than throw.
+      final ua = await UserAgentBuilder.build();
+      expect(ua, startsWith('Mozilla/5.0'));
     });
   });
 
@@ -222,6 +250,33 @@ void main() {
       expect(decodedPayload['screen'], equals('375x812'));
       expect(decodedPayload['language'], equals('en_US'));
       expect(decodedPayload['id'], equals('dev-123'));
+    });
+
+    test('event payload includes tag when appVersion is present', () {
+      const info = DeviceInfo(
+        deviceId: 'dev-123',
+        locale: 'en_US',
+        screenResolution: '375x812',
+        appVersion: '1.2.3',
+      );
+
+      // Simulate what UmamiClient._send builds
+      final payload = <String, dynamic>{
+        'website': 'test-site',
+        'hostname': 'testapp',
+        'url': '/HomeScreen',
+        'title': 'HomeScreen',
+        'screen': info.screenResolution,
+        'language': info.locale,
+        'id': info.deviceId,
+      };
+      if (info.appVersion != null) payload['tag'] = info.appVersion;
+
+      final body = jsonEncode({'type': 'event', 'payload': payload});
+      final decoded = jsonDecode(body) as Map<String, dynamic>;
+      final decodedPayload = decoded['payload'] as Map<String, dynamic>;
+
+      expect(decodedPayload['tag'], equals('1.2.3'));
     });
 
     test('event payload includes name and data for custom events', () {
