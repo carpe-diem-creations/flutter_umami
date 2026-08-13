@@ -1,3 +1,8 @@
+## 0.4.1
+
+- Added `analyzer.exclude` entries for platform directories to `analysis_options.yaml` (matches Flutter 3.47's auto-migration).
+- Releases are now published to pub.dev automatically from GitHub Actions on version tags.
+
 ## 0.4.0
 
 - **Breaking:** Renamed the package from `umami_flutter` to `umami_flutter_sdk` for publication on pub.dev. Update your import to `package:umami_flutter_sdk/umami_flutter_sdk.dart`.
