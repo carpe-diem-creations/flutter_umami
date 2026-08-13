@@ -12,7 +12,7 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -37,7 +37,7 @@ jobs:
     permissions:
       id-token: write # Required for OIDC authentication with pub.dev
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       # setup-dart exchanges the GitHub OIDC token for a pub.dev publishing token
       - uses: dart-lang/setup-dart@v1
       - uses: subosito/flutter-action@v2
