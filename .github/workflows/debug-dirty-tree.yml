@@ -1,0 +1,26 @@
+# Temporary: find out which CI step modifies analysis_options.yaml. Delete after debugging.
+name: Debug dirty tree
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Diff after setup
+        run: git status --porcelain && git diff
+      - run: flutter pub get
+      - name: Diff after pub get
+        run: git status --porcelain && git diff
+      - run: flutter analyze
+      - name: Diff after analyze
+        run: git status --porcelain && git diff
+      - run: flutter test
+      - name: Diff after test
+        run: git status --porcelain && git diff
