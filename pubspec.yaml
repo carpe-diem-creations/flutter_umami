@@ -1,6 +1,6 @@
-name: umami_flutter
+name: umami_flutter_sdk
 description: A lightweight Flutter package for Umami analytics with non-blocking initialization and automatic device info collection.
-version: 0.3.1
+version: 0.4.0
 repository: https://github.com/carpe-diem-creations/flutter_umami
 homepage: https://github.com/carpe-diem-creations/flutter_umami
 

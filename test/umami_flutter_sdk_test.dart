@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:umami_flutter/src/device_info.dart';
-import 'package:umami_flutter/src/umami_client.dart';
-import 'package:umami_flutter/umami_flutter.dart';
+import 'package:umami_flutter_sdk/src/device_info.dart';
+import 'package:umami_flutter_sdk/src/umami_client.dart';
+import 'package:umami_flutter_sdk/umami_flutter_sdk.dart';
 
 // ── DeviceInfo Tests ─────────────────────────────────────────────────────────
 

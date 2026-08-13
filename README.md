@@ -1,17 +1,19 @@
-# umami_flutter
+# umami_flutter_sdk
 
 A lightweight, privacy-focused Flutter analytics package powered by [Umami](https://umami.is) — the open-source alternative to Google Analytics and Firebase Analytics.
 
 Track screen views, custom events, and user engagement in your Flutter app **without sending data to Google**. Self-host your analytics, own your data, and stay GDPR-compliant.
 
-[![pub package](https://img.shields.io/pub/v/umami_flutter.svg)](https://pub.dev/packages/umami_flutter)
+[![pub package](https://img.shields.io/pub/v/umami_flutter_sdk.svg)](https://pub.dev/packages/umami_flutter_sdk)
 [![Dart](https://img.shields.io/badge/Dart-%5E3.7.2-blue)](https://dart.dev)
 [![Flutter](https://img.shields.io/badge/Flutter-%3E%3D3.10.0-02569B)](https://flutter.dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Why umami_flutter over Firebase Analytics?
+> This package is a maintained fork of [umami_flutter](https://github.com/hamzache497/flutter_umami) by Hamza Ejaz, published under a new name.
 
-|                              | **umami_flutter**                              | **Firebase Analytics**                              |
+## Why umami_flutter_sdk over Firebase Analytics?
+
+|                              | **umami_flutter_sdk**                          | **Firebase Analytics**                              |
 | ---------------------------- | ---------------------------------------------- | --------------------------------------------------- |
 | **Privacy**                  | ✅ Self-hosted — data never leaves your server | ❌ Data sent to Google servers                      |
 | **GDPR compliance**          | ✅ No cookie banners needed, no PII collected  | ⚠️ Requires consent banners and DPA                 |
@@ -43,20 +45,20 @@ Track screen views, custom events, and user engagement in your Flutter app **wit
 
 ### Installation
 
-Add `umami_flutter` to your `pubspec.yaml`:
+Add `umami_flutter_sdk` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  umami_flutter: ^0.1.2
+  umami_flutter_sdk: ^0.4.0
 ```
 
 Or install via Git:
 
 ```yaml
 dependencies:
-  umami_flutter:
+  umami_flutter_sdk:
     git:
-      url: https://github.com/hamzache497/flutter_umami.git
+      url: https://github.com/carpe-diem-creations/flutter_umami.git
 ```
 
 Then run:
@@ -89,7 +91,7 @@ Keychain access is used for persistent device IDs. No extra entitlements are nee
 Call `init()` once, typically in your `main()` or a splash screen. It returns immediately and never blocks.
 
 ```dart
-import 'package:umami_flutter/umami_flutter.dart';
+import 'package:umami_flutter_sdk/umami_flutter_sdk.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -151,7 +153,7 @@ UmamiAnalytics.trackEvent('purchase', data: {'plan': 'pro', 'price': 9.99});
 ## Architecture
 
 ```
-umami_flutter.dart          ← Public barrel export
+umami_flutter_sdk.dart      ← Public barrel export
 └─ src/
    ├─ umami_analytics.dart  ← Static API (init, trackScreen, trackEvent)
    ├─ umami_client.dart     ← HTTP client for Umami /api/send endpoint
@@ -187,7 +189,7 @@ Contributions are welcome! Whether it's a bug fix, new feature, documentation im
 4. Push to the branch (`git push origin feature/my-feature`)
 5. Open a Pull Request
 
-If you find a bug or have a feature request, please [open an issue](https://github.com/hamzache497/flutter_umami/issues).
+If you find a bug or have a feature request, please [open an issue](https://github.com/carpe-diem-creations/flutter_umami/issues).
 
 ## License
 

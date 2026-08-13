@@ -1,3 +1,8 @@
+## 0.4.0
+
+- **Breaking:** Renamed the package from `umami_flutter` to `umami_flutter_sdk` for publication on pub.dev. Update your import to `package:umami_flutter_sdk/umami_flutter_sdk.dart`.
+- First release published to pub.dev.
+
 ## 0.3.1
 
 - Fixed repository and homepage URLs in `pubspec.yaml` (moved to `carpe-diem-creations`).

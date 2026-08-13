@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:http/io_client.dart';
 
-import 'package:umami_flutter/src/device_info.dart';
-import 'package:umami_flutter/src/user_agent.dart';
+import 'package:umami_flutter_sdk/src/device_info.dart';
+import 'package:umami_flutter_sdk/src/user_agent.dart';
 
 /// Low-level HTTP client that sends events to the Umami `/api/send` endpoint.
 ///

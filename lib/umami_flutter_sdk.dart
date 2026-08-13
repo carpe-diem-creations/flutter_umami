@@ -4,7 +4,7 @@
 /// and fire-and-forget event tracking.
 ///
 /// ```dart
-/// import 'package:umami_flutter/umami_flutter.dart';
+/// import 'package:umami_flutter_sdk/umami_flutter_sdk.dart';
 ///
 /// // At startup (returns immediately):
 /// UmamiAnalytics.init(

@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:umami_flutter/umami_flutter.dart';
+import 'package:umami_flutter_sdk/umami_flutter_sdk.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

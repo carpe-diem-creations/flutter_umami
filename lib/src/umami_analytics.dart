@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:umami_flutter/src/device_id_service.dart';
-import 'package:umami_flutter/src/device_info.dart';
-import 'package:umami_flutter/src/umami_client.dart';
-import 'package:umami_flutter/src/user_agent.dart';
+import 'package:umami_flutter_sdk/src/device_id_service.dart';
+import 'package:umami_flutter_sdk/src/device_info.dart';
+import 'package:umami_flutter_sdk/src/umami_client.dart';
+import 'package:umami_flutter_sdk/src/user_agent.dart';
 
 /// Lightweight Umami analytics for Flutter.
 ///

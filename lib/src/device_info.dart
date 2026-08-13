@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:package_info_plus/package_info_plus.dart';
 
-import 'package:umami_flutter/src/device_id_service.dart';
+import 'package:umami_flutter_sdk/src/device_id_service.dart';
 
 /// Immutable snapshot of device metadata collected at init time.
 class DeviceInfo {
